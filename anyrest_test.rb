@@ -18,9 +18,15 @@ class AnyRestTest < MiniTest::Unit::TestCase
     assert_equal [].to_json, last_response.body
   end
 
-  def test_posting_some_beer
-    post '/beer', name: 'Chimay Red', alcohol: '12'
+  def test_posting_and_getting_some_beer
+    beer_hash = { name: 'Chimay Red', alcohol: '12' }
+    post '/beer', beer_hash
     assert last_response.ok?
-    assert_equal 36, last_response.body.length
+    beer_id = last_response.body
+    assert_equal 36, beer_id.length
+
+    get "/beer/#{beer_id}"
+    assert_equal beer_hash.to_json, last_response.body
   end
+
 end

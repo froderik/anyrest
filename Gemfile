@@ -4,4 +4,5 @@ gem 'sinatra'
 
 group :development, :test do 
   gem 'rack-test'
+  gem 'pry'
 end
