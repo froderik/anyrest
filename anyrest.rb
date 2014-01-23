@@ -11,11 +11,11 @@ end
 
 get '/:resource/:id' do
   key = params[:resource] + params[:id]
-  stuff = DA_STUFF[key].to_json
+  stuff = DA_STUFF[key]
   unless stuff
     raise Sinatra::NotFound
   end
-  stuff
+  stuff.to_json
 end
 
 post '/:resource' do

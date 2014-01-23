@@ -29,4 +29,9 @@ class AnyRestTest < MiniTest::Unit::TestCase
     assert_equal beer_hash.to_json, last_response.body
   end
 
+  def test_raises_404_if_not_found 
+    get '/beer/absent-id'
+    assert_equal last_response.status, 404
+  end
+
 end
