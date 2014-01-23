@@ -47,4 +47,14 @@ class AnyRestTest < MiniTest::Unit::TestCase
     assert_equal last_response.status, 404
   end
 
+  def test_update_da_beer
+    beer_hash = { name: 'Leffe Bruijn', origin: 'Holland' }
+    beer_id = brew_some_beer beer_hash
+    beer_hash[:origin] = 'Belgium'
+    path = "/beer/#{beer_id}"
+    put path, beer_hash
+    get path
+    assert_equal last_response.body, beer_hash.to_json
+  end
+
 end
