@@ -27,3 +27,8 @@ post '/:resource' do
   DA_STUFF[key] = params
   new_id
 end
+
+delete '/:resource/:id' do
+  key = params[:resource] + params[:id]
+  DA_STUFF.delete key
+end
