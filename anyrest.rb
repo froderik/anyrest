@@ -4,6 +4,7 @@ require 'securerandom'
 require 'pry'
 
 DA_STUFF = {}
+KEY_SEPARATOR = '§'
 
 def find_stuff key
   stuff = DA_STUFF[key]
@@ -18,31 +19,44 @@ def clean params
   params.delete 'id'
 end
 
-get '/:resource' do
-  [].to_json  
+def key_from resource, id
+  "#{resource}#{KEY_SEPARATOR}#{id}"
 end
 
-get '/:resource/:id' do
-  key = params[:resource] + params[:id]
+get '/*/*' do |resource, id|
+  key = key_from resource, id
   find_stuff( key ).to_json
 end
 
-post '/:resource' do
+get '/*' do |resource|
+  resources = DA_STUFF.select { |k, v| k.start_with? "#{resource}#{KEY_SEPARATOR}" }
+  "#{resources.to_json}\n"
+end
+
+post '/*' do |resource|
   new_id = SecureRandom.uuid
-  key = params[:resource] + new_id
+  key = key_from resource, new_id
   clean params
   DA_STUFF[key] = params
   new_id
 end
 
-put '/:resource/:id' do
-  key = params[:resource] + params[:id]
+put '/*/*' do |resource, id|
+  key = key_from resource, id
   find_stuff( key )
   clean params
   DA_STUFF[key] = params
 end
 
-delete '/:resource/:id' do
-  key = params[:resource] + params[:id]
+delete '/*/*' do |resource, id|
+  key = key_from resource, id
   DA_STUFF.delete key
+end
+
+delete '/*' do |resource|
+  DA_STUFF.delete_if { |k, v| k.start_with? "#{resource}#{KEY_SEPARATOR}" }
+end
+
+delete '/' do
+  DA_STUFF = {}
 end
