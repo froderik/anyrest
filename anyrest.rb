@@ -30,6 +30,17 @@ def key_from resource, id
 end
 
 
+# the root of things
+
+get '/' do
+  markdown :README
+end
+
+delete '/' do
+  DA_STUFF = {}
+end
+
+
 # operations on a specific resource instance
 
 get '/*/*' do |resource, id|
@@ -69,9 +80,3 @@ delete '/*' do |resource|
   DA_STUFF.delete_if { |k, v| k.start_with? "#{resource}#{KEY_SEPARATOR}" }
 end
 
-
-# the root of things
-
-delete '/' do
-  DA_STUFF = {}
-end
