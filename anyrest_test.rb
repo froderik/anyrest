@@ -3,6 +3,7 @@ ENV['RACK_ENV'] = 'test'
 require File.join(File.dirname(__FILE__), 'anyrest')
 
 require 'minitest/autorun'
+require 'minitest/pride'
 require 'rack/test'
 
 class AnyRestTest < MiniTest::Unit::TestCase
