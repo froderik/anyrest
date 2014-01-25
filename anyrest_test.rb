@@ -63,15 +63,19 @@ class AnyRestTest < MiniTest::Unit::TestCase
   end
 
   def test_getting_some_more_beer
-    blask_hash = { type: 'blask', alcohol: '4' }
+    blask_hash = { 'type' => 'blask', 'alcohol' => '4' }
     brew_some_beer blask_hash
-    tokyo_hash = { type: 'tokyo', alcohol: '20' }
+    tokyo_hash = { 'type' => 'tokyo', 'alcohol' => '20' }
     brew_some_beer tokyo_hash
-    nanny_hash = { type: 'nanny', alcohol: '0' }
+    nanny_hash = { 'type' => 'nanny', 'alcohol' => '0' }
     brew_some_beer nanny_hash
 
     get '/beer'
-    assert_equal [blask_hash, tokyo_hash, nanny_hash].to_json, last_response.body.strip
+    
+    response_hash = JSON.parse last_response.body
+    assert response_hash.detect { |k,v| v == blask_hash }
+    assert response_hash.detect { |k,v| v == tokyo_hash }
+    assert response_hash.detect { |k,v| v == nanny_hash }
   end
 
 end
