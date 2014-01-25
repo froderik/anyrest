@@ -73,7 +73,7 @@ Updating an item
 
 Updating is done with PUT. This is similar to creating an item. We just add the id to the URL and tell curl to do a PUT instead.
 
-    > curl --data "name=java&dynamic=no&degreeofoo=4" http://localhost:4567/languages/1062c281-e3df-4d77-bd3e-e973b670e52d
+    > curl --data "name=java&dynamic=no&degreeofoo=4" --request PUT http://localhost:4567/languages/1062c281-e3df-4d77-bd3e-e973b670e52d
 
 Deleting
 --------
